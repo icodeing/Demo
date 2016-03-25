@@ -1,0 +1,9 @@
+G:\Code\net\Demo\Processon\Processon.DAL\bin\Debug\Processon.DAL.dll
+G:\Code\net\Demo\Processon\Processon.DAL\bin\Debug\Processon.DAL.pdb
+G:\Code\net\Demo\Processon\Processon.DAL\bin\Debug\Processon.Common.dll
+G:\Code\net\Demo\Processon\Processon.DAL\bin\Debug\Processon.Model.dll
+G:\Code\net\Demo\Processon\Processon.DAL\bin\Debug\Processon.Common.pdb
+G:\Code\net\Demo\Processon\Processon.DAL\bin\Debug\Processon.Model.pdb
+G:\Code\net\Demo\Processon\Processon.DAL\obj\Debug\Processon.DAL.csprojResolveAssemblyReference.cache
+G:\Code\net\Demo\Processon\Processon.DAL\obj\Debug\Processon.DAL.dll
+G:\Code\net\Demo\Processon\Processon.DAL\obj\Debug\Processon.DAL.pdb

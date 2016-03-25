@@ -1,0 +1,123 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <link href="~/Content/ligerUI/skins/Aqua/css/ligerui-all.css" rel="stylesheet" />
+    <link href="~/Content/ligerUI/skins/ligerui-icons.css" rel="stylesheet" />
+    <link href="~/Content/css/admin.main.css" rel="stylesheet" />
+    <link href="~/Content/ligerUI/skins/Gray/css/all.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+    <script src="~/Content/ligerUI/js/ligerui.all.js"></script>
+    <script src="~/Scripts/js/CustomersData.js"></script>
+
+    <script type="text/javascript">
+        var g;
+        var isUpdate = true;//默认更新
+        var del = false;
+       
+        $(function ()
+        {
+
+            var unitType;
+            $.ajax({
+                type: 'post',
+                async: false,
+                url: '/Admin/UnitType/GetUnitJson',
+                success: function (d) {
+                    unitType = eval('(' + d + ')');
+                }
+            });
+
+            g=window['g'] =
+            $("#maingrid").ligerGrid({
+                height: '100%',
+                columns: [
+                { display: '单位ID', name: 'UnitId', align: 'left', width: 20, hide: true },
+                { display: '单位名称', name: 'UnitName', width: 180, editor: { type: 'text' } },
+                { display: '创建时间', name: 'CreateTime', width: 180, hide: true }
+                ], data: unitType,  usePager: false,
+                toolbar: {
+                    items: [
+                    { text: '增加', click: addItem, icon: 'add' },
+                    { line: true },
+                    { text: '删除', click: itemclick, img: '../../../lib/ligerUI/skins/icons/delete.gif' }
+                    ]
+                },
+                enabledEdit: true, allowHideColumn: false, onAfterEdit: getUpdata,
+            });
+
+
+            $("#pageloading").hide();
+        });
+
+        function addItem() {
+            isUpdate = false;
+            g.addEditRow();
+        }
+
+        function itemclick(item) {
+            del = true;
+            var data = g.getSelectedRow();
+            debugger
+            var json = JSON.stringify(data);
+            $.post("/Admin/UnitType/DeleteUnitTypes", { jsondata: json }, function (text, status) {
+                debugger
+                var res = JSON.parse(text);
+                if (res.Status == 1) {
+                    g.reload();
+                    alert(res.msg);
+                } else if (res.Status == -1) {
+                    alert(res.msg);
+                }
+            });
+            g.reload();
+        }
+
+        function getUpdata() {
+            debugger
+            if (del) {
+                return;
+            }
+            var data = g.getSelectedRow();// g.getUpdated();
+            debugger
+            var json = JSON.stringify(data);
+            $.post("/Admin/UnitType/UpdateUnit", { jsondata: json, isUpdate: isUpdate }, function (text, status) {
+                debugger
+                var res = JSON.parse(text);
+                if (res.Status == 1) {
+                    g.reload();
+                    alert(res.msg);
+                } else if (res.Status == -1) {
+                    alert(res.msg);
+                }
+            });
+            g.reload();
+        }
+
+
+    </script>
+
+
+</head>
+<body>
+    <div class="l-loading" style="display:block" id="pageloading"></div>
+   
+
+
+    <div class="l-clear"></div>
+
+    <div id="maingrid"></div>
+
+    <div style="display:none;">
+
+    </div>
+
+</body>
+</html>

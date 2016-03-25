@@ -1,0 +1,83 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <link href="~/Content/ligerUI/skins/Aqua/css/ligerui-all.css" rel="stylesheet" />
+    <link href="~/Content/ligerUI/skins/ligerui-icons.css" rel="stylesheet" />
+    <link href="~/Content/css/admin.main.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+    <script src="~/Content/ligerUI/js/ligerui.all.js"></script>
+    <script src="~/Scripts/js/CustomersData.js"></script>
+
+    <script type="text/javascript">
+        function itemclick(item)
+        {
+            alert(item.text);
+        }
+        $(function ()
+        {
+
+            var smallType;
+            $.ajax({
+                type: 'post',
+                async: false,
+                url: '/ProjectReport/ProjectApprovalReport/GetSmaillTypetList',
+                success: function (d) {
+                    smallType = eval('(' + d + ')');
+                }
+            });
+
+            window['g'] =
+            $("#maingrid").ligerGrid({
+                height: '100%',
+                columns: [
+                { display: 'ID', name: 'SmallTypeId', align: 'left', width: 20, hide: true },
+                { display: '小类别名称', name: 'SmallTypeName', width: 180 }
+                ], data: smallType, rownumbers: true, usePager: false,
+                toolbar: {
+                    items: [
+                    { text: '增加', click: itemclick, icon: 'add' },
+                    { line: true },
+                    { text: '修改', click: itemclick, icon: 'modify' },
+                    { line: true },
+                    { text: '删除', click: itemclick, img: '../../../lib/ligerUI/skins/icons/delete.gif' }
+                    ]
+                },
+                autoFilter: true
+            });
+
+
+            $("#pageloading").hide();
+        });
+
+        function deleteRow()
+        {
+            g.deleteSelectedRow();
+        }
+
+    </script>
+
+
+</head>
+<body>
+    <div class="l-loading" style="display:block" id="pageloading"></div>
+    <a class="l-button" style="width:120px;float:left; margin-left:10px; display:none;" onclick="deleteRow()">删除选择的行</a>
+
+
+    <div class="l-clear"></div>
+
+    <div id="maingrid"></div>
+
+    <div style="display:none;">
+
+    </div>
+
+</body>
+</html>

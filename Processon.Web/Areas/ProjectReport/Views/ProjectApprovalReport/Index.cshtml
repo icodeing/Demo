@@ -1,0 +1,315 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <link href="~/Content/ligerUI/skins/Aqua/css/ligerui-all.css" rel="stylesheet" />
+    <link href="~/Content/ligerUI/skins/ligerui-icons.css" rel="stylesheet" />
+    <link href="~/Content/css/admin.main.css" rel="stylesheet" />
+    <link href="~/Content/ligerUI/skins/Gray/css/all.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+    <script src="~/Content/ligerUI/js/ligerui.all.js"></script>
+    <script type="text/javascript">
+        var g;
+        var addInsert=true;//默认更新
+        $(function () {
+            var YES = "<lable style='color:green;'>同意</lable>"; //状态为1
+            var NO = "<lable style='color:red;'>不同意</lable>";//状态为2
+            var Nil = "<lable style='color:red;'>未审核</lable>"; //状态为0
+            var sexData;
+            $.ajax({
+                type: 'post',
+                async: false,
+                url: '/ProjectReport/ProjectApprovalReport/GetProjectList',
+                success: function (d) {
+                    sexData = eval('(' + d + ')');
+                }
+            });
+            var projectData = sexData.Rows;
+            //大类别
+            var bigType;
+            $.ajax({
+                type: 'post',
+                async: false,
+                url: '/ProjectReport/ProjectApprovalReport/GetBigTypetList',
+                success: function (d) {
+                    bigType = eval('(' + d + ')');
+                }
+            });
+            var BigTypeData = bigType.Rows;
+            //小类别
+            var smallType;
+            $.ajax({
+                type: 'post',
+                async: false,
+                url: '/ProjectReport/ProjectApprovalReport/GetSmaillTypetList',
+                success: function (d) {
+                    smallType = eval('(' + d + ')');
+                }
+            });
+            var SmallTypeData = smallType.Rows;
+
+            //单位
+            var unitType;
+            $.ajax({
+                type: 'post',
+                async: false,
+                url: '/ProjectReport/ProjectApprovalReport/GetUnitTypetList',
+                success: function (d) {
+                    unitType = eval('(' + d + ')');
+                }
+            });
+            var UnitTypeData = unitType.Rows;
+
+            debugger
+            g = $("#maingrid4").ligerGrid({
+                columns: [
+                {
+                    display: '数据信息', columns:
+                    [
+                         {
+                             display: '项目类型', name: 'CategoryId', width: 130, isSort: false, type: "text", editor: {
+                                 type: 'select', data: projectData, emptyText: null, valueField: "CategoryId", textField: "TypeName"
+                             }, render: function (rowdata) {
+                                 for (var i = 0; i < projectData.length; i++) {
+                                     if (projectData[i]["CategoryId"] == rowdata.CategoryId) {
+                                         return projectData[i]["TypeName"];
+                                     }
+                                 }
+                                 return rowdata.TypeName;
+                             }
+                         },
+                        { display: '日期', name: 'CreateTime', width: 130, type: 'date', format: 'yyyy年MM月dd', editor: { type: 'date' } },
+                        {
+                            display: '大类别', name: 'BigID', width: 130, isSort: false, type: "text", editor: {
+                                type: 'select', data: BigTypeData, emptyText: null, valueField: 'BigID', textField: "BigTypeName"
+                            }, render: function (item) {
+                                for (var i = 0; i < BigTypeData.length; i++) {
+                                    if (BigTypeData[i]["BigID"] == item.BigID) {
+                                        return BigTypeData[i]["BigTypeName"];
+                                    }
+                                }
+                                return item.BigTypeName;
+                            }
+                        },
+                        {
+                            display: '小类别', name: 'SmallTypeId', width: 60, editor: {
+                                type: 'select', data: SmallTypeData,
+                                emptyText: null, valueField: 'SmallTypeId', textField: "SmallTypeName"
+                            }, render: function (item) {
+                                for (var i = 0; i < SmallTypeData.length; i++) {
+                                    if (SmallTypeData[i]["SmallTypeId"] == item.SmallTypeId) {
+                                        return SmallTypeData[i]["SmallTypeName"];
+                                    }
+                                }
+                                return item.SmallTypeName;
+                            }
+                        },
+                        { display: '品牌/型号', name: 'Brand', width: 60, editor: { type: 'text' } },
+                        { display: '数量', name: 'Number', width: 60, editor: { type: 'int' } },
+                        {
+                            display: '单位', name: 'UnitId', width: 60, type: 'text', editor: {
+                                type: 'select', data: UnitTypeData,
+                                emptyText: null, valueField: 'UnitId', textField: "UnitName"
+                            }, render: function (item) {
+                                for (var i = 0; i < UnitTypeData.length; i++) {
+                                    if (UnitTypeData[i]["UnitId"] == item.UnitId) {
+                                        return UnitTypeData[i]["UnitName"];
+                                    }
+                                }
+                                return item.UnitName;
+                            }
+                        },
+                        {
+                            display: '份', name: 'Singleton', width: 60, editor: { type: 'text' }
+                        },
+                        { display: '单价', name: 'UnitPrice', width: 60, editor: { type: 'int' } },
+                        { display: '总金额', name: 'CountPrice', width: 60 }
+                    ]
+                },
+                {
+                    display: '审核信息', columns:
+                    [
+                        {
+                            display: '施工总负责人', columns: [
+                                 {
+                                     display: '审核结果', name: 'H_IsAgreed', align: 'left', width: 60, render: function (item) {
+                                         debugger
+                                         if (item.H_IsAgreed == 1) {
+                                             return YES;
+                                         } else if (item.H_IsAgreed == 2) { return NO; } else { return Nil; }
+                                     }
+                                 },
+                                  { display: '备注', name: 'H_Node', align: 'left', width: 70 },
+                            ]
+                        },
+                       {
+                           display: '施工监理', columns: [
+                                {
+                                    display: '审核结果', name: 'S_IsAgreed', align: 'left', width: 60, render: function (item) {
+                                        if (item.S_IsAgreed == 1) {
+                                            return YES;
+                                        } else if (item.S_IsAgreed == 2) { return NO; } else { return Nil; }
+                                    }
+                                },
+                                 { display: '备注', name: 'S_Node', align: 'left', width: 70 },
+                           ]
+                       },
+                         {
+                             display: '资金管理', columns: [
+                                  {
+                                      display: '审核结果', name: 'M_IsAgreed', align: 'left', width: 60, render: function (item) {
+                                          if (item.M_IsAgreed == 1) {
+                                              return YES;
+                                          } else if (item.M_IsAgreed == 2) { return NO; } else { return Nil; }
+                                      }
+                                  },
+                                   { display: '备注', name: 'M_Node', align: 'left', width: 70 },
+                             ]
+                         },
+                          {
+                              display: '财务审核', columns: [
+                                   {
+                                       display: '审核结果', name: 'F_IsAgreed', align: 'left', width: 60, render: function (item) {
+                                           if (item.F_IsAgreed == 1) {
+                                               return YES;
+                                           } else if (item.F_IsAgreed == 2) { return NO; } else { return Nil; }
+                                       }
+                                   },
+                                    { display: '备注', name: 'F_Node', align: 'left', width: 70 },
+                              ]
+                          },
+                            {
+                                display: '出纳审核', columns: [
+                                     {
+                                         display: '审核结果', name: 'C_IsAgreed', align: 'left', width: 60, render: function (item) {
+                                             if (item.C_IsAgreed == 1) {
+                                                 return YES;
+                                             } else if (item.C_IsAgreed == 2) { return NO; } else { return Nil; }
+                                         }
+                                     },
+                                      { display: '备注', name: 'C_Node', align: 'left', width: 70 },
+                                ]
+                            },
+                        {
+                            display: '其他审核', columns: [
+                                 {
+                                     display: '审核结果', name: 'O_IsAgreed', align: 'left', width: 60, render: function (item) {
+                                         if (item.O_IsAgreed == 1) {
+                                             return YES;
+                                         } else if (item.O_IsAgreed == 2) { return NO; } else { return Nil; }
+                                     }
+                                 },
+                                  { display: '备注', name: 'O_Node', align: 'left', width: 70 },
+                            ]
+                        }
+                    ]
+                }
+                ],toolbar: {
+                    items: [
+                    { text: '增加', click: itemclick, icon: 'add' },
+                    { line: true },
+                    { line: true },
+                    { text: '删除', click: itemclick, icon: 'delete' }
+                    ]
+                },
+                onAfterEdit: getUpdata, pageSize: 10, allowHideColumn: false, enabledEdit: true,
+                width: '100%', height: '100%'
+            });
+
+            loadGridData();
+            $("#pageloading").hide();
+        });
+
+        function itemclick() {
+            debugger
+            addInsert = false;
+            g.addEditRow();
+        }
+
+        function loadGridData() {
+            var data = {};
+            $.ajax({
+                type: 'post',
+                url: '/ProjectReport/ProjectApprovalReport/GetReport',
+                success: function (msg) {
+                    data = eval('(' + msg + ')');
+                    g.set({ data: data });
+                    g.loadData();
+                }
+            })
+        }
+
+        function getUpdata(e) {
+            debugger
+            g.updateCell("CountPrice", e.record.Number * e.record.UnitPrice, e.record);
+            var data = g.getUpdated();
+            var ndata =addInsert==true?g.getUpdated(): g.getSelectedRows();
+            debugger
+            if (ndata.length <= 0) {
+                return false;
+            }
+            for (var i = 0; i < ndata.length; i++) {
+                if (!ndata[i].CategoryId) {
+                    return false;
+                }
+                if (!ndata[i].CreateTime) {
+                    return false;
+                }
+                if (!ndata[i].BigID) {
+                    return false;
+                }
+                if (!ndata[i].SmallTypeId) {
+                    return false;
+                }
+                if (!ndata[i].Brand) {
+                    return false;
+                }
+                if (!ndata[i].Number) {
+                    return false;
+                }
+                if (!ndata[i].UnitId) {
+                    return false;
+                }
+                if (!ndata[i].Singleton) {
+                    return false;
+                }
+                if (!ndata[i].UnitPrice) {
+                    return false;
+                }
+            }
+            debugger
+            var json = JSON.stringify(ndata);
+            //alert(data[0].TypeName+","+data[0].Brand)
+            //alert(JSON.stringify(data));
+            $.post("/ProjectReport/ProjectApprovalReport/UpdateProjectReport", { jsondata: json, isUpdate: addInsert }, function (text, status) {
+                debugger
+                var res = JSON.parse(text);
+                if (res.Status == 1) {
+                    g.reload();
+                    alert(res.msg);
+                } else if (res.Status == -1) {
+                    alert(res.msg);
+                }
+            });
+            g.reload();
+        }
+
+    </script>
+
+</head>
+<body>
+    <div class="l-clear"></div>
+
+    <div id="maingrid4"></div>
+
+    <div style="display:none;"></div>
+
+</body>
+</html>

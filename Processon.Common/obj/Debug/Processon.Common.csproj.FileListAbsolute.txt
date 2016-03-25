@@ -1,0 +1,7 @@
+G:\Code\net\Demo\Processon\Processon.Common\bin\Debug\Processon.Common.dll
+G:\Code\net\Demo\Processon\Processon.Common\bin\Debug\Processon.Common.pdb
+G:\Code\net\Demo\Processon\Processon.Common\bin\Debug\Processon.Model.dll
+G:\Code\net\Demo\Processon\Processon.Common\bin\Debug\Processon.Model.pdb
+G:\Code\net\Demo\Processon\Processon.Common\obj\Debug\Processon.Common.csprojResolveAssemblyReference.cache
+G:\Code\net\Demo\Processon\Processon.Common\obj\Debug\Processon.Common.dll
+G:\Code\net\Demo\Processon\Processon.Common\obj\Debug\Processon.Common.pdb

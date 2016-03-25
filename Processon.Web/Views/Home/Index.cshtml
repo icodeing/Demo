@@ -1,0 +1,91 @@
+﻿@using Processon.Model
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <link href="~/Content/ligerUI/skins/Aqua/css/ligerui-all.css" rel="stylesheet" />
+    <link href="~/Content/ligerUI/skins/ligerui-icons.css" rel="stylesheet" />
+    <link href="~/Content/css/admin.main.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+    <script src="~/Content/ligerUI/js/ligerui.all.js"></script>
+
+    <script type="text/javascript">
+        var navtab ;
+            $(function ()
+            {
+                //初始化布局
+                $("#layout1").ligerLayout({ leftWidth: 200 });
+                //初始化菜单
+                $("#menus").ligerAccordion(
+                {
+                    height: 300
+                });
+                navtab= $('#tab1').ligerTab({height:"100%"});
+            });
+        //tabid:tab标签页的唯一标识；url:tab标签页要显示的标签路径；texttab页的标题
+            function addTable(tabid,url,text) {
+                navtab.addTabItem({tabid:tabid,url:url,text:text});
+            }
+    </script>
+
+</head>
+<body>
+    <div id="layout1">
+        <div position="top" class="top1">
+            <a href="#" class="title">管理系统</a>
+            <ul>
+                <li><img src="~/Images/avatar.gif" style="height:25px;" /></li>
+                <li>欢迎【XXX】登录</li>
+                <li><a href="@Url.Action("Logout", "Login")">退出</a></li>
+            </ul>
+        </div>
+        
+      
+        <div position="left">
+            <div id="menus">
+                    @{
+                        List<SysMenus> menus = ViewBag.MenusList as List<SysMenus>;
+                        if (menus != null && menus.Any())
+                        {
+                            foreach (var item in menus)
+                            {
+                                //一级
+                                if (item.MParentID == -1)
+                                {
+                                    <div title="@item.MName">
+                                        <ul>
+                                            @foreach (var subitem in menus)
+                                    {
+                                        //二级菜单
+                                        if (item.MID == subitem.MParentID)
+                                        {
+                                    <li><a onclick="addTable('@subitem.MID','@subitem.MUrl','@subitem.MName')" href="javascript:void(0)">@subitem.MName</a></li>
+                                        }
+                                    }
+                                        </ul>
+                                    </div>
+                                }
+                            }
+                        }
+                    }
+
+                </div> 
+        </div>
+        <div position="center" title="标题">
+            <div id="tab1" style="width:100%; overflow:hidden; border:1px solid #A3C0E8; ">
+                <div title="首页" >
+                   <iframe frameborder="0" src="ProjectReport/ProjectApprovalReport/index" style="width:100%;height:100%"></iframe>
+                </div>
+
+            </div>
+       
+    </div>
+
+</body>
+</html>

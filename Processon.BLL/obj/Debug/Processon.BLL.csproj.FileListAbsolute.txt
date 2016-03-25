@@ -1,0 +1,11 @@
+G:\Code\net\Demo\Processon\Processon.BLL\bin\Debug\Processon.BLL.dll
+G:\Code\net\Demo\Processon\Processon.BLL\bin\Debug\Processon.BLL.pdb
+G:\Code\net\Demo\Processon\Processon.BLL\bin\Debug\Processon.DAL.dll
+G:\Code\net\Demo\Processon\Processon.BLL\bin\Debug\Processon.Model.dll
+G:\Code\net\Demo\Processon\Processon.BLL\bin\Debug\Processon.Common.dll
+G:\Code\net\Demo\Processon\Processon.BLL\bin\Debug\Processon.DAL.pdb
+G:\Code\net\Demo\Processon\Processon.BLL\bin\Debug\Processon.Model.pdb
+G:\Code\net\Demo\Processon\Processon.BLL\bin\Debug\Processon.Common.pdb
+G:\Code\net\Demo\Processon\Processon.BLL\obj\Debug\Processon.BLL.csprojResolveAssemblyReference.cache
+G:\Code\net\Demo\Processon\Processon.BLL\obj\Debug\Processon.BLL.dll
+G:\Code\net\Demo\Processon\Processon.BLL\obj\Debug\Processon.BLL.pdb

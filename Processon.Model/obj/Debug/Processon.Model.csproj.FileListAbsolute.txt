@@ -1,0 +1,5 @@
+G:\Code\net\Demo\Processon\Processon.Model\bin\Debug\Processon.Model.dll
+G:\Code\net\Demo\Processon\Processon.Model\bin\Debug\Processon.Model.pdb
+G:\Code\net\Demo\Processon\Processon.Model\obj\Debug\Processon.Model.dll
+G:\Code\net\Demo\Processon\Processon.Model\obj\Debug\Processon.Model.pdb
+G:\Code\net\Demo\Processon\Processon.Model\obj\Debug\Processon.Model.csprojResolveAssemblyReference.cache
